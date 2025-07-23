@@ -3,6 +3,7 @@
 A command-line Dependency-Track client that is primarily useful for CI/CD environments.
 
 GitHub: https://github.com/VioletBeacon/deptrack-client
+
 PyPI: https://pypi.org/project/violetbeacon-deptrack-client
 
 ## Installation
@@ -101,9 +102,13 @@ Example (**Note**: this is not best practice since it will put the API key in th
 $ deptrack-client upload-bom -A odt_... -H https://my-dependency-track-instance -a -p ${PROJECT} -q ${VERSION} -f bom.json
 ```
 
-A typical CI/CD example where secrets are injected into the build environment via environment variables is shown below.
+Following is a typical CI/CD example where secrets are injected into the build environment via environment variables:
 
-**Note**: the default value for the `-A | --api-key` parameter is `env:DTRACK_APIKEY`, which tells the client to pull the API key from the environment variable named `DTRACK_APIKEY`. The default value for the `-H | --dtrack-baseurl` parameters is `env:DTRACK_BASEURL`, which tells the client to pull the base URL from the environment variable named `DTRACK_BASEURL`. You can modify these parameters by setting `-A env:<APIKEY_VARNAME>` and `-H env:<URL_VARNAME>` options.
+The default value for the `-A | --api-key` parameter is `env:DTRACK_APIKEY`, which tells the client to pull the API key from the environment variable named `DTRACK_APIKEY`.
+
+The default value for the `-H | --dtrack-baseurl` parameters is `env:DTRACK_BASEURL`, which tells the client to pull the base URL from the environment variable named `DTRACK_BASEURL`.
+
+You can modify these parameters by setting `-A env:<APIKEY_VARNAME>` and `-H env:<URL_VARNAME>` options.
 
 ```bash:
 # Prerequisites
@@ -114,4 +119,4 @@ $ deptrack-client upload-bom -a -p ${PROJECT} -q ${VERSION} -f bom.json
 
 ## Development
 
-See [./DEVELOPMENT.md].
+See [DEVELOPMENT.md](./DEVELOPMENT.md).
