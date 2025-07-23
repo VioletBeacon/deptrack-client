@@ -56,12 +56,12 @@ cyclonedx-upload: VERSION := $(shell sed -n 's/^version\s*=\s*"\([^"]\+\)"$//\1/
 cyclonedx-upload: bom.json
 	deptrack-client upload-bom -p ${PROJECT} -q ${VERSION} -f bom.json
 
-.PHONY: setup-uv
-deb-setup-uv:
-	sudo apt-get install uv
+.PHONY: install-uv
+install-uv:
+	pip install uv
 
 .PHONY: cicd
-cicd: deb-setup-uv setup tox-all
+cicd: install-uv setup tox-all
 
 .PHONY: lint
 lint:
