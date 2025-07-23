@@ -3,6 +3,7 @@
 A command-line Dependency-Track client that is primarily useful for CI/CD environments.
 
 GitHub: https://github.com/VioletBeacon/deptrack-client
+PyPI: https://pypi.org/project/violetbeacon-deptrack-client
 
 ## Installation
 
