@@ -58,7 +58,7 @@ cyclonedx-upload: bom.json
 
 .PHONY: setup-uv
 deb-setup-uv:
-	apt install uv
+	sudo apt-get install uv
 
 .PHONY: cicd
 cicd: deb-setup-uv setup tox-all
