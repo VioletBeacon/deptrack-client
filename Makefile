@@ -88,7 +88,7 @@ verify-publish-test:
 
 .PHONY: publish
 publish:
-	${VENV_PYTHON} -m twine upload dist/*
+	${PYTHON} -m twine upload dist/*
 
 .PHONY: verify-publish
 verify-publish:
