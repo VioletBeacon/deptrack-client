@@ -1,0 +1,12 @@
+# Directories
+/.mypy_cache
+/.tox
+/dist
+/venv.nix
+/src/violetbeacon_deptrack_client.egg-info
+__pycache__
+
+# Files
+/.coverage
+/bom.json
+
