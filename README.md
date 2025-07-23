@@ -9,7 +9,7 @@ PyPI: https://pypi.org/project/violetbeacon-deptrack-client
 ## Installation
 
 ```bash
-pip install violetbeacon_deptrack_util
+pip install violetbeacon-deptrack-client
 ```
 
 This will install the deptrack-client cli into your Python environment.
