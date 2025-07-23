@@ -4,6 +4,7 @@ VENV := venv.nix
 VENV_BIN := ${VENV}/bin
 PIP := ${VENV_BIN}/pip
 PYTHON := ${VENV_BIN}/python3
+TOX := ${VENV_BIN}/tox
 
 TESTPUBLISH_VENV := venv.nix.testpublish
 TESTPUBLISH_PYTHON := ${TESTPUBLISH_VENV}/bin/python3
@@ -27,7 +28,7 @@ install-editable:
 
 .PHONY: build
 build: lint bom.json test
-	tox -e build
+	${TOX} -e build
 
 .PHONY: clean
 clean:
@@ -48,7 +49,7 @@ mrclean: clean
 	rm -f bom.json
 
 bom.json: pyproject.toml
-	tox run -e cyclonedx
+	${TOX} run -e cyclonedx
 
 .PHONY: cyclonedx-upload
 cyclonedx-upload: VERSION := $(shell sed -n 's/^version\s*=\s*"\([^"]\+\)"$//\1/p' pyproject.toml)
@@ -56,27 +57,27 @@ cyclonedx-upload: bom.json
 	deptrack-client upload-bom -p ${PROJECT} -q ${VERSION} -f bom.json
 
 .PHONY: cicd
-cicd: setup cyclonedx-upload tox-all
+cicd: setup tox-all
 
 .PHONY: lint
 lint:
-	${VENV_BIN}/tox run-parallel -e lint,type
+	${TOX} run-parallel -e lint,type
 
 .PHONY: audit
 audit:
-	${VENV_BIN}/tox run -e audit
+	${TOX} run -e audit
 
 .PHONY: test
 test:
-	${VENV_BIN}/tox run -e coverage
+	${TOX} run -e coverage
 
 .PHONY: test-all
 test-all:
-	${VENV_BIN}/tox run-parallel -e 3.13,3.12,3.10,3.9
+	${TOX} run-parallel -e 3.13,3.12,3.10,3.9
 
 .PHONY: tox-all
 tox-all:
-	tox run-parallel
+	${TOX} run-parallel
 
 .PHONY: publish-test
 publish-test:
