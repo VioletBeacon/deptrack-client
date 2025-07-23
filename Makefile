@@ -39,10 +39,13 @@ clean:
 .PHONY: mrclean
 mrclean: clean
 	rm -rf ${VENV}
+	rm -rf ${TESTPUBLISH_VENV}
 	rm -rf .tox
 	rm -rf .mypy_cache
 	rm -rf .pytest_cache
 	rm -rf htmlcov
+	rm -f .coverage
+	rm -f bom.json
 
 bom.json: pyproject.toml
 	tox run -e cyclonedx
