@@ -36,7 +36,7 @@ def main(argv=None) -> int:
     logger.debug("args: %s", args)
 
     cfg = config.Config()
-    if 'config' in args:
+    if 'config' in args and args.config is not None:
         cfg = config.load_config(args.config)
 
     try:

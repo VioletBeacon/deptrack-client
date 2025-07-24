@@ -24,7 +24,7 @@ def add_generic_params(parser: ArgumentParser, config_required=False):
         help="Increase logging verbosity. Can be provided multiple times.")
     parser.add_argument(
         "-c", "--config", type=str, required=config_required,
-        default="deptrack-client.yaml",
+        default=None,
         help="Path to configuration file. Default: %(default)s")
     parser.add_argument(
         "-H", "--dtrack-baseurl", type=str, default="env:DTRACK_BASEURL",

@@ -1,2 +1,3 @@
 twine
 tox
+toml-cli
