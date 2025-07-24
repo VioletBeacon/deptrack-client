@@ -1,4 +1,5 @@
-PROJECT := violetbeacon-deptrack-client
+PROJECT := `toml get --toml-path pyproject.toml project.name`
+VERSION := `toml get --toml-path pyproject.toml project.version`
 
 VENV := venv.nix
 VENV_BIN := ${VENV}/bin
@@ -52,9 +53,9 @@ bom.json: pyproject.toml
 	${TOX} run -e cyclonedx
 
 .PHONY: cyclonedx-upload
-cyclonedx-upload: VERSION := $(shell sed -n 's/^version\s*=\s*"\([^"]\+\)"$//\1/p' pyproject.toml)
 cyclonedx-upload: bom.json
-	deptrack-client upload-bom -p ${PROJECT} -q ${VERSION} -f bom.json
+	source ../_private/deptrack-client.env \
+		&& deptrack-client upload-bom -a -p ${PROJECT} -q ${VERSION} -f bom.json
 
 .PHONY: install-uv
 install-uv:
@@ -92,6 +93,7 @@ verify-publish-test:
 	rm -rf ${TESTPUBLISH_VENV}
 	python -m venv ${TESTPUBLISH_VENV}
 	${TESTPUBLISH_PYTHON} -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ ${PROJECT}
+	echo "VALIDATING: deptrack-client version"
 	${TESTPUBLISH_VENV}/bin/deptrack-client version
 
 .PHONY: publish
@@ -103,4 +105,5 @@ verify-publish:
 	rm -rf ${TESTPUBLISH_VENV}
 	python -m venv ${TESTPUBLISH_VENV}
 	${TESTPUBLISH_PYTHON} -m pip install ${PROJECT}
+	echo "VALIDATING: deptrack-client version"
 	${TESTPUBLISH_VENV}/bin/deptrack-client version
