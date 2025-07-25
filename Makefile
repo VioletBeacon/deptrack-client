@@ -1,11 +1,11 @@
-PROJECT := `toml get --toml-path pyproject.toml project.name`
-VERSION := `toml get --toml-path pyproject.toml project.version`
-
 VENV := venv.nix
 VENV_BIN := ${VENV}/bin
 PIP := ${VENV_BIN}/pip
 PYTHON := ${VENV_BIN}/python3
 TOX := ${VENV_BIN}/tox
+
+PROJECT := `${VENV_BIN}/toml get --toml-path pyproject.toml project.name`
+VERSION := `${VENV_BIN}/toml get --toml-path pyproject.toml project.version`
 
 TESTPUBLISH_VENV := venv.nix.testpublish
 TESTPUBLISH_PYTHON := ${TESTPUBLISH_VENV}/bin/python3
@@ -65,7 +65,7 @@ install-uv:
 # Note: We need to use dev-setup in order to install deptrack-client in editable
 # mode since we use it in cyclonedx-upload
 .PHONY: cicd
-cicd: install-uv dev-setup cyclonedx-upload tox-all
+cicd: install-uv dev-setup bom.json cyclonedx-upload tox-all
 
 .PHONY: lint
 lint:
