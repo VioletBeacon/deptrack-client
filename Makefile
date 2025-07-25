@@ -54,15 +54,18 @@ bom.json: pyproject.toml
 
 .PHONY: cyclonedx-upload
 cyclonedx-upload: bom.json
-	source ../_private/deptrack-client.env \
-		&& deptrack-client upload-bom -a -p ${PROJECT} -q ${VERSION} -f bom.json
+	if [[ -f ../_private/deptrack-client.env ]]; then \
+		source ../_private/deptrack-client.env; \
+	fi && deptrack-client upload-bom -a -p ${PROJECT} -q ${VERSION} -f bom.json
 
 .PHONY: install-uv
 install-uv:
 	pip install uv
 
+# Note: We need to use dev-setup in order to install deptrack-client in editable
+# mode since we use it in cyclonedx-upload
 .PHONY: cicd
-cicd: install-uv setup tox-all
+cicd: install-uv dev-setup cyclonedx-upload tox-all
 
 .PHONY: lint
 lint:

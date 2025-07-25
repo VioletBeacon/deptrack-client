@@ -16,3 +16,6 @@ jobs:
 
     - name: Run CI/CD build
       run: make cicd
+      env:
+        DTRACK_BASEURL: ${{ vars.DTRACK_BASEURL }}
+        DTRACK_APIKEY: ${{ secrets.DTRACK_APIKEY }}
