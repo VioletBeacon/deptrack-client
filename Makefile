@@ -56,7 +56,7 @@ bom.json: pyproject.toml
 cyclonedx-upload: bom.json
 	if [[ -f ../_private/deptrack-client.env ]]; then \
 		source ../_private/deptrack-client.env; \
-	fi && deptrack-client upload-bom -a -p ${PROJECT} -q ${VERSION} -f bom.json
+	fi && ${VENV_BIN}/deptrack-client upload-bom -a -p ${PROJECT} -q ${VERSION} -f bom.json
 
 .PHONY: install-uv
 install-uv:
