@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 VENV := venv.nix
 VENV_BIN := ${VENV}/bin
 PIP := ${VENV_BIN}/pip
@@ -54,9 +56,10 @@ bom.json: pyproject.toml
 
 .PHONY: cyclonedx-upload
 cyclonedx-upload: bom.json
-	if [[ -f ../_private/deptrack-client.env ]]; then \
-		source ../_private/deptrack-client.env; \
-	fi && ${VENV_BIN}/deptrack-client upload-bom -a -p ${PROJECT} -q ${VERSION} -f bom.json
+	if [[ -e ../_private/deptrack-client.env ]]; then \
+			source ../_private/deptrack-client.env; \
+		fi \
+		&& ${VENV_BIN}/deptrack-client upload-bom -a -p ${PROJECT} -q ${VERSION} -f bom.json
 
 .PHONY: install-uv
 install-uv:
