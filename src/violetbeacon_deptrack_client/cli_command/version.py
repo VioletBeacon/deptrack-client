@@ -17,10 +17,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from argparse import _SubParsersAction
 import logging
-from importlib.metadata import version
 from typing import Any
 
 from ..config import Config
+from .. import __VERSION__
 
 logger = logging.getLogger(__name__)
 
@@ -39,5 +39,5 @@ def init(cfg: Config, args: Any):
 def action(cfg: Config, args: Any) -> int:
     """Handle the version action"""
     _ = (cfg, args)  # arguments are unused but required for API compatibility
-    print(version('violetbeacon_deptrack_client'))
+    print(__VERSION__)
     return 0

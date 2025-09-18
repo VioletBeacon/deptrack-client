@@ -5,9 +5,10 @@ VENV_BIN := ${VENV}/bin
 PIP := ${VENV_BIN}/pip
 PYTHON := ${VENV_BIN}/python3
 TOX := ${VENV_BIN}/tox
+TOML := ${VENV_BIN}/toml
 
-PROJECT := `${VENV_BIN}/toml get --toml-path pyproject.toml project.name`
-VERSION := `${VENV_BIN}/toml get --toml-path pyproject.toml project.version`
+PROJECT := $(shell ${TOML} get --toml-path pyproject.toml project.name)
+VERSION := $(shell ${TOML} get --toml-path pyproject.toml project.version)
 
 TESTPUBLISH_VENV := venv.nix.testpublish
 TESTPUBLISH_PYTHON := ${TESTPUBLISH_VENV}/bin/python3
@@ -98,9 +99,9 @@ publish-test:
 verify-publish-test:
 	rm -rf ${TESTPUBLISH_VENV}
 	python -m venv ${TESTPUBLISH_VENV}
-	${TESTPUBLISH_PYTHON} -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ ${PROJECT}
-	echo "VALIDATING: deptrack-client version"
-	${TESTPUBLISH_VENV}/bin/deptrack-client version
+	${TESTPUBLISH_PYTHON} -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ ${PROJECT}==${VERSION}
+	echo "VALIDATING: ${PROJECT} version"
+	${TESTPUBLISH_PYTHON} -c "import ${PROJECT};print(${PROJECT}.__VERSION__)"
 
 .PHONY: publish
 publish:
@@ -110,6 +111,6 @@ publish:
 verify-publish:
 	rm -rf ${TESTPUBLISH_VENV}
 	python -m venv ${TESTPUBLISH_VENV}
-	${TESTPUBLISH_PYTHON} -m pip install ${PROJECT}
-	echo "VALIDATING: deptrack-client version"
-	${TESTPUBLISH_VENV}/bin/deptrack-client version
+	${TESTPUBLISH_PYTHON} -m pip install ${PROJECT}==${VERSION}
+	echo "VALIDATING: ${PROJECT} version"
+	${TESTPUBLISH_PYTHON} -c "import ${PROJECT};print(${PROJECT}.__VERSION__)"
